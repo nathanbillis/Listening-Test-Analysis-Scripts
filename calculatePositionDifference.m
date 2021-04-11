@@ -16,7 +16,6 @@ for rowIndex = 1:size(data.calibrated)
     calibratedPos(rowIndex) = data.calibrated(rowIndex,3);
 end
 
-
 % Add caluclated data to struct
 results.calibrated.difference = calibratedDiff(~isnan(calibratedDiff(:,1)));
 results.generic.difference = genericDiff(~isnan(genericDiff(:,1)));
@@ -24,7 +23,7 @@ results.generic.difference = genericDiff(~isnan(genericDiff(:,1)));
 results.calibrated.positions = calibratedPos(~isnan(calibratedPos(:,1)));
 results.generic.positions = genericPos(~isnan(genericPos(:,1)));
 
-results.generic.median = median(results.calibrated.difference);
-results.calibrated.median = median(results.generic.difference);
+results.generic.median = median(abs(results.calibrated.difference));
+results.calibrated.median = median(abs(results.generic.difference));
 end
 
