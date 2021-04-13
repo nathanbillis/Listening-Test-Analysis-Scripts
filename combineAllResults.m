@@ -10,6 +10,7 @@ csvfolders=filefolders(endsWith(filenames,'.csv'));
 files=fullfile(csvfolders,csvfiles);
 
 allResults = struct;
+allResults.files = files;
 allResults.generic = struct;
 allResults.generic.difference = [];
 allResults.generic.positions = [];
