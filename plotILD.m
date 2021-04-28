@@ -26,7 +26,9 @@ azimiuth = -180:179;
 plot(azimiuth,ILD ,'r');
 hold on;
 
-hrtf = SOFAload('D1_ILD_Scaled.sofa');
+% hrtf = SOFAload('D1_ILD_Scaled.sofa');
+hrtf = SOFAload('D2_44K_16bit_256tap_FIR_SOFA.sofa');
+
 hrtfExpanded = SOFAexpand(hrtf);
 
 ILD = zeros(1,360);
@@ -51,8 +53,34 @@ posIndex = 1;
 azimiuth = -180:179;
 plot(azimiuth,ILD ,'b');
 
-
 hrtf = SOFAload('H3_44K_16bit_256tap_FIR_SOFA.sofa');
+hrtfExpanded = SOFAexpand(hrtf);
+
+ILD2 = nan(1,360);
+found = 0;
+
+posIndex2 = hrtfExpanded.SourcePosition(:,2,:);
+posIndex1 = hrtfExpanded.SourcePosition(:,1,:);
+posIndex = 1;
+
+ while posIndex < size(posIndex1,1)
+        posIndex = posIndex + 1;
+        posPos = posIndex2(posIndex);
+        pos2 = posIndex1(posIndex);
+        if posPos == 0
+            HRTF_R = norm(squeeze(hrtfExpanded.Data.IR(posIndex,1,:)));
+            HRTF_L = norm(squeeze(hrtfExpanded.Data.IR(posIndex,2,:)));
+            ILD2(round(pos2+1)) = 10*log((HRTF_L)/HRTF_R);
+        end
+ end
+ 
+ % add line 
+
+ILDTest = interp1(0:359,ILD2,0:359,'spline');
+azimiuth = -180:179;
+plot(azimiuth,ILDTest,'green');
+
+hrtf = SOFAload('H9_44K_16bit_256tap_FIR_SOFA.sofa');
 hrtfExpanded = SOFAexpand(hrtf);
 
 ILD2 = nan(1,360);
@@ -96,4 +124,4 @@ grid on;
 title('HRTF ILD Comparisons');
 ylabel('ILD (dB)');
 
-legend({'Generic HRTF','Scaled HRTF' , 'H3 Human HRTF', '-20dB - +20dB Ref'},'Location','southeast');
+legend({'Generic KU100 HRTF','Generic KEMAR HRTF' , 'Human H3 HRTF','Human H9 HRTF', '-20dB - +20dB Ref'},'Location','southeast');
