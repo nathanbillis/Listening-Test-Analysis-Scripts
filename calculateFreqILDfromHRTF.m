@@ -1,12 +1,12 @@
+function [magnitudeLeft,freqLeft,magnitudeRight,freqRight] = calculateFreqILDfromHRTF(elevation,azimuth)
+%CALCULATEFREQILDFROMHRTF Summary of this function goes here
+%   Detailed explanation goes here
 SOFAstart();
 
 % load HRTF Files
-hrtf = SOFAload('SADIIE/D2_44K_16bit_256tap_FIR_SOFA.sofa');
+hrtf = SOFAload('SADIIE/D1_44K_16bit_256tap_FIR_SOFA.sofa');
 hrtfExpanded = SOFAexpand(hrtf);
 fs = hrtf.Data.SamplingRate;
-
-elevation = 0;
-azimuth = 0;
 
 posLeft = hrtfExpanded.SourcePosition(:,2,:);
 posRight = hrtfExpanded.SourcePosition(:,1,:);
@@ -39,31 +39,5 @@ magnitudeRight=(20*log10(abs(fft(rightChannel')')));
 magnitudeRight(magnitudeRight<noisefloor)=noisefloor;
 freqRight = 0:fs/size(rightChannel,1):(size(magnitudeRight,1)-1)*fs/size(rightChannel,1);
 freqRight(freqRight>20000) = nan;
-
-% Plot HRIR
-subplot(2,1,1);
-plot(x,leftChannel);
-hold on;
-plot(x,rightChannel);
-grid on;
-ylabel('Amplitude');
-xlabel('Time (ms)');
-legend('Left Channel','Right Channel','location','southwest');
-title('Head-related impulse response (HRIR)');
-
-% Plot HRTF
-subplot(2,1,2);
-grid on;
-hold on;
-set(gca, 'XScale', 'log')
-xlabel('Frequency (Hz)');
-ylabel('Magnitude (dB)');
-title('Head-related magnitude response (HRTF)');
-
-plot(freqLeft,magnitudeLeft(:,:));
-plot(freqRight,magnitudeRight(:,:));
-xticks([100 250 500 1000 2000 4000 8000 16000 20000])
-
-legend('Left Channel','Right Channel','location','southwest');
-
+end
 
