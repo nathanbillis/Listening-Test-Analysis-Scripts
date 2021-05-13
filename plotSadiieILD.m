@@ -1,7 +1,7 @@
 % Find all SADIE SOFA Files
 SOFAstart();
 
-directory = "/Users/nathan/Documents/MATLAB/Listening-Test-Analysis-Scripts/SADIIE";
+directory = "/Users/nathan/Documents/MATLAB/Listening-Test-Analysis-Scripts/Scaled-SOFA";
 myfiles = dir(directory);
 filenames={myfiles(:).name}';
 fileFolders={myfiles(:).folder}';
@@ -9,9 +9,10 @@ sofaFiles=filenames(endsWith(filenames,'.sofa'));
 sofaFolders=fileFolders(endsWith(filenames,'.sofa'));
 files=fullfile(sofaFolders,sofaFiles);
 
-yline(0,'--')
-hold on;
 plot([180 90 0 -90 -180], [0 20 0 -20 0], '--');
+hold on;
+yline(0,'--')
+
 legend('X Axis','20dB reference','Location','southeast','NumColumns',2)
 
 grid on;
@@ -45,7 +46,7 @@ for index = 1:size(files)
      
     interILD = interp1(0:359,ILD,0:359,'spline');
     azimiuth = -180:179;
-    name = sprintf('%s Head', id);
+    name = sprintf('%s Subject', id);
     plot(azimiuth,interILD,'DisplayName',name);
 end
 

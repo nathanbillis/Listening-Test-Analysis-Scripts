@@ -1,11 +1,15 @@
 SOFAstart();
-csvLocation = '9TF3866_080421153142.csv';
+% csvLocation = '9TF3866_080421153142.csv';
+% 
+% fileContent = loadCSV(csvLocation);
+% 
+% % Estimated ILD from measurement
+% ILDLeftEstimated = fileContent.leftAverage;
+% ILDRightEstimated = fileContent.rightAverage;
 
-fileContent = loadCSV(csvLocation);
 
-% Estimated ILD from measurement
-ILDLeftEstimated = fileContent.leftAverage;
-ILDRightEstimated = fileContent.rightAverage;
+ILDLeftEstimated = -21.3081200046963;
+ILDRightEstimated = -21.0130500145217;
 
 % Load in Generic KU100 HRTF
 hrtf = SOFAload('D1_44K_16bit_256tap_FIR_SOFA.sofa');
