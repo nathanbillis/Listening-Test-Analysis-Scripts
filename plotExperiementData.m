@@ -1,7 +1,7 @@
 SOFAstart();
 
 directory = "/Users/nathan/Documents/MATLAB/Listening-Test-Analysis-Scripts/Results";
-allResults = combineAllResultsv2(directory);
+allResults = combineAllResultsv2FB(directory);
 
 genericMedian = median(abs(allResults.generic.difference));
 calibratedMedian = median(abs(allResults.calibrated.difference));
